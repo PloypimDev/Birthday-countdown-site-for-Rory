@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Countdown</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to right, #4c0899, #cc9706);
+            color: #fff;
+            overflow: hidden;
+            background-size: 200% 200%;
+            animation: gradientBackground 10s ease infinite;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .countdown-container {
+            background-color: rgba(10, 161, 129, 0.973);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 15px rgba(124, 224, 10, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .countdown {
+            font-size: 2em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .countdown div {
+            flex: 1;
+            margin: 0 10px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(177, 5, 5, 0.1);
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .countdown div::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(54, 14, 163, 0.1);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            transition: transform 0.5s ease;
+            z-index: 0;
+        }
+
+        .countdown div:hover::after {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .message {
+            font-size: 1.5em;
+            color: #1e086e;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            .countdown {
+                font-size: 1.5em;
+            }
+            .countdown div {
+                margin: 0 5px;
+                padding: 15px;
+            }
+            .message {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-container">
+        <h1>Birthday Countdown</h1>
+        <div class="countdown" id="countdown">
+            <div id="days">00<br><small>Days</small></div>
+            <div id="hours">00<br><small>Hours</small></div>
+            <div id="minutes">00<br><small>Minutes</small></div>
+            <div id="seconds">00<br><small>Seconds</small></div>
+        </div>
+        <div class="message" id="birthdayMessage"></div>
+    </div>
+
+    <script>
+        function countdownToBirthday() {
+            const birthday = new Date('2024-08-20T00:00:00'); // กำหนดวันที่วันเกิด
+            const now = new Date();
+            const timeDifference = birthday - now;
+
+            if (timeDifference > 0) {
+                const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById('countdown').style.display = 'none';
+                document.getElementById('birthdayMessage').textContent = "Happy Birthday Rory! I hope your day is as amazing as you are and a year full of exciting possibilities.I'm so grateful to have you in my life.";
+            }
+        }
+
+        setInterval(countdownToBirthday, 1000);
+
+        // Background animation effect on click
+        document.addEventListener('click', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.backgroundPosition = `${x}% ${y}%`;
+        });
+    </script>
+</body>
+</html>
